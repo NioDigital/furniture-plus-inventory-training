@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+       <!-- HP-specific journal (Table 47, FIN-001) -->
+      
+      <record id="journal_hp_sales" model="account.journal">
+          <field name="name">HP Sales</field>
+          <field name="code">HPS</field>
+          <field name="type">sale</field>
+          <field name="company_id" ref="base.main_company"/>
+      </record>
+
+      <record id="journal_hp_receipts" model="account.journal">
+          <field name="name">HP Receipts</field>
+          <field name="code">HPR</field>
+          <field name="type">bank</field>
+          <field name="company_id" ref="base.main_company"/>
+      </record>

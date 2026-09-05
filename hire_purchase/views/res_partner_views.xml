@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+            <!-- Extend Partner form to show HP applications -->
+           <record id="view_res_partner_form_hp" model="ir.ui.view">
+                <field name="name">res.partner.form.hp</field>
+                <field name="model">res.partner</field>
+                <field name="inherit_id" ref="base.view_partner_form"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//notebook" position="inside">
+                        <page string="Hire Purchase" groups="hire_purchase.group_hp_salesperson,hire_purchase.group_hp_credit_officer,hire_purchase.group_hp_credit_manager,hire_purchase.group_hp_collections_officer,hire_purchase.group_hp_legal">
+                            <field name="hp_application_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="plan_id"/>
+                                    <field name="state"/>
+                                    <field name="application_date"/>
+                                </list>
+                            </field>
+                        </page>
+                    </xpath>
+                </field>
+           </record>

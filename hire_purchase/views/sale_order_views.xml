@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+                  <!-- Extend Sale Order form to show HP linkage -->
+                 <record id="view_sale_order_form_hp" model="ir.ui.view">
+                      <field name="name">sale.order.form.hp</field>
+                      <field name="model">sale.order</field>
+                      <field name="inherit_id" ref="sale.view_order_form"/>
+                      <field name="arch" type="xml">
+                          <xpath expr="//notebook" position="inside">
+                              <page string="Hire Purchase" groups="hire_purchase.group_hp_salesperson,hire_purchase.group_hp_credit_officer,hire_purchase.group_hp_credit_manager,hire_purchase.group_hp_accountant">
+                                  <group>
+                                      <field name="hp_application_id"/>
+                                      <field name="hp_contract_id"/>
+                                      <field name="hp_plan_id" attrs="{'invisible': [('hp_application_id', '=', False)]}"/>
+                                  </group>
+                              </page>
+                          </xpath>
+                      </field>
+                 </record>

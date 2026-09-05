@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+       <!-- HP Contract List View -->
+      <record id="view_hp_contract_tree" model="ir.ui.view">
+           <field name="name">hp.contract.tree</field>
+           <field name="model">hp.contract</field>
+           <field name="type">tree</field>
+           <field name="arch" type="xml">
+               <list string="Hire Purchase Contracts">
+                   <field name="name"/>
+                   <field name="partner_id"/>
+                   <field name="plan_id"/>
+                   <field name="statutory_hp_price" decimal_precision="2"/>
+                   <field name="qualifying_paid_amount" decimal_precision="2"/>
+                   <field name="statutory_paid_percentage" widget="progress"/>
+                   <field name="state"/>
+                   <field name="activation_date"/>
+               </list>
+           </field>
+      </record>
+
+       <!-- HP Contract Form View -->
+      <record id="view_hp_contract_form" model="ir.ui.view">
+           <field name="name">hp.contract.form</field>
+           <field name="model">hp.contract</field>
+           <field name="type">form</field>
+           <field name="arch" type="xml">
+               <form string="Hire Purchase Contract">
+                   <header>
+                       <button name="action_activate" string="Activate Contract" type="object" class="btn-primary"/>
+                       <button name="action_restructure_review" string="Restructure Review" type="object"/>
+                       <button name="action_mark_settled" string="Mark Settled" type="object"/>
+                       <button name="action_mark_ownership_transferred" string="Transfer Ownership" type="object"/>
+                       <button name="action_recalculate_statutory" string="Recalculate Statutory" type="object"/>
+                       <field name="state" widget="statusbar"/>
+                   </header>
+                   <sheet>
+                       <div class="mb-3">
+                           <h1><field name="name"/></h1>
+                       </div>
+                       <group>
+                           <group>
+                               <field name="application_id"/>
+                               <field name="plan_id"/>
+                               <field name="partner_id"/>
+                               <field name="sale_order_id"/>
+                           </group>
+                           <group>
+                               <field name="ownership_status"/>
+                               <field name="delivery_date"/>
+                               <field name="activation_date"/>
+                               <field name="company_id" groups="base.group_multi_company"/>
+                           </group>
+                       </group>
+                       <notebook>
+                           <page string="Pricing">
+                               <group>
+                                   <field name="cash_price_excl_vat" decimal_precision="2"/>
+                                   <field name="vat_amount" decimal_precision="2"/>
+                                   <field name="cash_price_incl_vat" decimal_precision="2"/>
+                                   <field name="deposit_amount" decimal_precision="2"/>
+                                   <field name="trade_in_credit" decimal_precision="2"/>
+                                   <field name="amount_financed" decimal_precision="2"/>
+                               </group>
+                               <group>
+                                   <field name="finance_charge" decimal_precision="2"/>
+                                   <field name="installation_charge" decimal_precision="2"/>
+                                   <field name="other_charges" decimal_precision="2"/>
+                                   <field name="statutory_hp_price" decimal_precision="2"/>
+                                   <field name="total_customer_amount" decimal_precision="2"/>
+                               </group>
+                           </page>
+                           <page string="Statutory Tracking">
+                               <group>
+                                   <field name="qualifying_paid_amount" decimal_precision="2"/>
+                                   <field name="statutory_paid_percentage" widget="progress"/>
+                                   <field name="amount_to_70_percent" decimal_precision="2"/>
+                                   <field name="accounting_framework"/>
+                                   <field name="effective_rate" decimal_precision="6"/>
+                               </group>
+                           </page>
+                           <page string="Schedule">
+                               <field name="schedule_line_ids">
+                                   <list string="Schedule Lines">
+                                       <field name="instalment_number"/>
+                                       <field name="due_date"/>
+                                       <field name="contractual_amount" decimal_precision="2"/>
+                                       <field name="paid_amount" decimal_precision="2"/>
+                                       <field name="balance" decimal_precision="2"/>
+                                       <field name="status"/>
+                                   </list>
+                               </field>
+                           </page>
+                           <page string="Accounting">
+                               <group>
+                                   <field name="gross_receivable" decimal_precision="2"/>
+                                   <field name="unearned_finance_income" decimal_precision="2"/>
+                                   <field name="loss_allowance" decimal_precision="2"/>
+                                   <field name="net_receivable" decimal_precision="2"/>
+                               </group>
+                           </page>
+                           <page string="Agreements">
+                               <field name="agreement_ids">
+                                   <list>
+                                       <field name="name"/>
+                                       <field name="version"/>
+                                       <field name="sign_status"/>
+                                       <field name="sign_completed_date"/>
+                                   </list>
+                               </field>
+                           </page>
+                           <page string="Cases">
+                               <field name="case_ids">
+                                   <list>
+                                       <field name="name"/>
+                                       <field name="case_type"/>
+                                       <field name="state"/>
+                                   </list>
+                               </field>
+                           </page>
+                           <page string="Notes">
+                               <field name="note"/>
+                           </page>
+                       </notebook>
+                   </sheet>
+               </form>
+           </field>
+      </record>
+
+       <!-- HP Contract Search View -->
+      <record id="view_hp_contract_search" model="ir.ui.view">
+           <field name="name">hp.contract.search</field>
+           <field name="model">hp.contract</field>
+           <field name="type">search</field>
+           <field name="arch" type="xml">
+               <search string="Hire Purchase Contracts">
+                   <field name="name"/>
+                   <field name="partner_id"/>
+                   <filter name="draft" string="Drafts" domain="[('state','=','draft')]"/>
+                   <filter name="active" string="Active" domain="[('state','=','active')]"/>
+                   <filter name="payment_due" string="Payment Due" domain="[('state','=','payment_due')]"/>
+                   <filter name="grace_period" string="Grace Period" domain="[('state','=','grace_period')]"/>
+                   <filter name="in_arrears" string="In Arrears" domain="[('state','=','in_arrears')]"/>
+                   <filter name="settled" string="Settled" domain="[('state','=','settled')]"/>
+                   <separator/>
+                   <group expand="0" string="Group By">
+                       <filter name="plan" string="Plan" context="{'group_by':'plan_id'}"/>
+                       <filter name="partner" string="Customer" context="{'group_by':'partner_id'}"/>
+                       <filter name="state" string="Status" context="{'group_by':'state'}"/>
+                   </group>
+               </search>
+           </field>
+      </record>
+
+       <!-- HP Contract Action -->
+      <record id="action_hp_contract" model="ir.actions.act_window">
+           <field name="name">Hire Purchase Contracts</field>
+           <field name="res_model">hp.contract</field>
+           <field name="view_mode">list,form</field>
+           <field name="search_view_id" ref="view_hp_contract_search"/>
+           <field name="help" type="xml">
+               <p>Create a new Hire Purchase Contract.</p>
+               <p>Contracts are activated upon delivery and manage the full lifecycle from activation through settlement or repossession.</p>
+           </field>
+      </record>

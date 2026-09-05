@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+     <!-- Hire Purchase Payment Term Data (Table 9, FIN-005) -->
+     
+     <record id="payment_term_3_months_same_cash" model="account.payment.term">
+         <field name="name">HP: 3 Months Same as Cash</field>
+         <field name="display_type">none</field>
+     </record>
+
+     <record id="payment_term_12_months_flat" model="account.payment.term">
+         <field name="name">HP: 12 Months Flat Rate</field>
+         <field name="display_type">none</field>
+     </record>
+
+     <record id="payment_term_24_months_flat" model="account.payment.term">
+         <field name="name">HP: 24 Months Flat Rate</field>
+         <field name="display_type">none</field>
+     </record>
+
+     <record id="payment_term_36_months_flat" model="account.payment.term">
+         <field name="name">HP: 36 Months Flat Rate</field>
+         <field name="display_type">none</field>
+     </record>

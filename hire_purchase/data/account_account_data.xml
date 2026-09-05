@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+      <!-- HP-specific accounts (Table 47, FIN-001 to FIN-003) -->
+      
+       <!-- Asset: Unearned Finance Income (balance sheet liability) -->
+      <record id="account_hp_unearned_income" model="account.account">
+          <field name="name">Unearned Finance Income</field>
+          <field name="code">4610</field>
+          <field name="internal_type">liability</field>
+          <field name="category_id" ref="account.data_account_type_liabilities"/>
+          <field name="company_id" ref="base.main_company"/>
+      </record>
+
+       <!-- Expense: Finance Income Recognition (P&L) -->
+      <record id="account_hp_finance_income" model="account.account">
+          <field name="name">Finance Income - Hire Purchase</field>
+          <field name="code">7110</field>
+          <field name="internal_type">income</field>
+          <field name="category_id" ref="account.data_account_type_revenue"/>
+          <field name="company_id" ref="base.main_company"/>
+      </record>
+
+       <!-- Expense: Finance Income Receivable (balance sheet asset) -->
+      <record id="account_hp_finance_receivable" model="account.account">
+          <field name="name">Finance Income Receivable</field>
+          <field name="code">1410</field>
+          <field name="internal_type">assets</field>
+          <field name="category_id" ref="account.data_account_type_receivables"/>
+          <field name="company_id" ref="base.main_company"/>
+      </record>
+
+       <!-- Expense: Bad Debt / Impairment (P&L) -->
+      <record id="account_hp_bad_debt" model="account.account">
+          <field name="name">Bad Debt Expense - Hire Purchase</field>
+          <field name="code">6110</field>
+          <field name="internal_type">other_costs</field>
+          <field name="category_id" ref="account.data_account_type_expenses"/>
+          <field name="company_id" ref="base.main_company"/>
+      </record>
+
+       <!-- Asset: Allowance for Bad Debts (contra-asset) -->
+      <record id="account_hp_allowance_bad_debt" model="account.account">
+          <field name="name">Allowance for Bad Debts - HP</field>
+          <field name="code">1490</field>
+          <field name="internal_type">contra_asset</field>
+          <field name="category_id" ref="account.data_account_type_receivables"/>
+          <field name="company_id" ref="base.main_company"/>
+      </record>
+
+       <!-- Asset: Repossessed Goods (inventory/asset) -->
+      <record id="account_hp_repossessed_goods" model="account.account">
+          <field name="name">Repossessed Goods</field>
+          <field name="code">1510</field>
+          <field name="internal_type">assets</field>
+          <field name="category_id" ref="account.data_account_type_inventory"/>
+          <field name="company_id" ref="base.main_company"/>
+      </record>
+
+       <!-- Expense: Loss on Repossession (P&L) -->
+      <record id="account_hp_loss_repossession" model="account.account">
+          <field name="name">Loss on Repossession</field>
+          <field name="code">6210</field>
+          <field name="internal_type">other_costs</field>
+          <field name="category_id" ref="account.data_account_type_expenses"/>
+          <field name="company_id" ref="base.main_company"/>
+      </record>
+
+       <!-- Income: Gain on Repossession/Resale (P&L) -->
+      <record id="account_hp_gain_repossession" model="account.account">
+          <field name="name">Gain on Repossession Resale</field>
+          <field name="code">7210</field>
+          <field name="internal_type">income</field>
+          <field name="category_id" ref="account.data_account_type_revenue"/>
+          <field name="company_id" ref="base.main_company"/>
+      </record>
+
+       <!-- Expense: Write-off (P&L) -->
+      <record id="account_hp_write_off" model="account.account">
+          <field name="name">Write-off - Hire Purchase</field>
+          <field name="code">6310</field>
+          <field name="internal_type">other_costs</field>
+          <field name="category_id" ref="account.data_account_type_expenses"/>
+          <field name="company_id" ref="base.main_company"/>
+      </record>
+
+       <!-- Liability: VAT Payable (T&T) -->
+      <record id="account_hp_vat_payable" model="account.account">
+          <field name="name">VAT Payable - Hire Purchase</field>
+          <field name="code">2110</field>
+          <internal_type>liability</internal_type>
+          <field name="category_id" ref="account.data_account_type_payables"/>
+          <field name="company_id" ref="base.main_company"/>
+      </record>

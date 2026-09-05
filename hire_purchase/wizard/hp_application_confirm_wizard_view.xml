@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+               <!-- HP Application Confirm Wizard -->
+              <record id="view_hp_application_confirm_wizard_form" model="ir.ui.view">
+                   <field name="name">hp.application.confirm.wizard.form</field>
+                   <field name="model">hp.application.confirm.wizard</field>
+                   <field name="type">form</field>
+                   <field name="arch" type="xml">
+                       <form string="Confirm Application">
+                           <group>
+                               <field name="application_id" invisible="1"/>
+                               <field name="note"/>
+                           </group>
+                           <footer>
+                               <button name="action_confirm" string="Confirm &amp; Create Contract" type="object" class="btn-primary"/>
+                               <button string="Cancel" class="btn-secondary" special="cancel"/>
+                           </footer>
+                       </form>
+                   </field>
+              </record>
+
+              <record id="action_hp_application_confirm_wizard" model="ir.actions.act_window">
+                   <field name="name">Confirm Application</field>
+                   <field name="res_model">hp.application.confirm.wizard</field>
+                   <field name="view_mode">form</field>
+                   <field name="target">new</field>
+              </record>

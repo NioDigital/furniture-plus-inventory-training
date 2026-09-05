@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+                        <!-- HP Early Settlement Wizard -->
+                       <record id="view_hp_early_settlement_wizard_form" model="ir.ui.view">
+                            <field name="name">hp.early.settlement.wizard.form</field>
+                            <field name="model">hp.early.settlement.wizard</field>
+                            <field name="type">form</field>
+                            <field name="arch" type="xml">
+                                <form string="Early Settlement">
+                                    <group>
+                                        <field name="contract_id" invisible="1"/>
+                                        <field name="settlement_amount" decimal_precision="2"/>
+                                        <field name="note"/>
+                                    </group>
+                                    <footer>
+                                        <button name="action_settle" string="Settle" type="object" class="btn-primary"/>
+                                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                                    </footer>
+                                </form>
+                            </field>
+                       </record>
+
+                       <record id="action_hp_early_settlement_wizard" model="ir.actions.act_window">
+                            <field name="name">Early Settlement</field>
+                            <field name="res_model">hp.early.settlement.wizard</field>
+                            <field name="view_mode">form</field>
+                            <field name="target">new</field>
+                       </record>

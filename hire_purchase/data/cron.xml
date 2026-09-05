@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+       <!-- Daily status update job (Table 70, JOB-001) -->
+     
+       <record id="ir_cron_hp_update_statuses" model="ir.cron">
+           <field name="name">HP: Update Contract Statuses</field>
+           <field name="model_id" ref="model_hp_contract"/>
+           <field name="state">code</field>
+           <field name="code">model.action_update_statuses()</field>
+           <field name="interval_number">1</field>
+           <field name="interval_type">days</field>
+           <field name="numbercall">-1</field>
+           <field name="doall" eval="False"/>
+       </record>
+
+       <!-- Monthly finance income recognition (Table 50, FIN-002) -->
+       <record id="ir_cron_hp_recognise_income" model="ir.cron">
+           <field name="name">HP: Recognise Finance Income</field>
+           <field name="model_id" ref="model_hp_contract"/>
+           <field name="state">code</field>
+           <field name="code">model.action_recalculate_statutory()</field>
+           <field name="interval_number">1</field>
+           <field name="interval_type">months</field>
+           <field name="numbercall">-1</field>
+           <field name="doall" eval="False"/>
+       </record>
+
+       <!-- Daily statutory threshold check (Table 35, LEG-006) -->
+       <record id="ir_cron_hp_check_statutory_thresholds" model="ir.cron">
+           <field name="name">HP: Check Statutory Thresholds</field>
+           <field name="model_id" ref="model_hp_contract"/>
+           <field name="state">code</field>
+           <field name="code">model.action_recalculate_statutory()</field>
+           <field name="interval_number">1</field>
+           <field name="interval_type">days</field>
+           <field name="numbercall">-1</field>
+           <field name="doall" eval="False"/>
+       </record>

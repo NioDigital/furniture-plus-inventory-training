@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+         <!-- HP Case List View -->
+        <record id="view_hp_case_tree" model="ir.ui.view">
+             <field name="name">hp.case.tree</field>
+             <field name="model">hp.case</field>
+             <field name="type">tree</field>
+             <field name="arch" type="xml">
+                 <list string="Hire Purchase Cases">
+                     <field name="name"/>
+                     <field name="contract_id"/>
+                     <field name="case_type"/>
+                     <field name="state"/>
+                     <field name="notice_date"/>
+                 </list>
+             </field>
+        </record>
+
+         <!-- HP Case Form View -->
+        <record id="view_hp_case_form" model="ir.ui.view">
+             <field name="name">hp.case.form</field>
+             <field name="model">hp.case</field>
+             <field name="type">form</field>
+             <field name="arch" type="xml">
+                 <form string="Hire Purchase Case">
+                     <header>
+                         <button name="action_issue_notice" string="Issue Notice" type="object"/>
+                         <button name="action_cure_notice" string="Cure Notice" type="object"/>
+                         <button name="mark_repossessed" string="Mark Repossessed" type="object"/>
+                         <button name="valuate_goods" string="Valuate Goods" type="object"/>
+                         <button name="action_mark_closed" string="Close Case" type="object"/>
+                         <field name="state" widget="statusbar"/>
+                     </header>
+                     <sheet>
+                         <group>
+                             <group>
+                                 <field name="name"/>
+                                 <field name="contract_id"/>
+                                 <field name="case_type"/>
+                             </group>
+                             <group>
+                                 <field name="notice_date"/>
+                                 <field name="notice_served_date"/>
+                                 <field name="notice_service_method"/>
+                                 <field name="recovery_intention_date"/>
+                             </group>
+                         </group>
+                         <notebook>
+                             <page string="Notice Details">
+                                 <group>
+                                     <field name="clear_days_end_date"/>
+                                     <field name="notice_cured"/>
+                                     <field name="cure_amount" decimal_precision="2"/>
+                                 </group>
+                             </page>
+                             <page string="Court Action">
+                                 <group>
+                                     <field name="court_case_number"/>
+                                     <field name="court_name"/>
+                                     <field name="filing_date"/>
+                                     <field name="hearing_dates"/>
+                                     <field name="court_orders"/>
+                                 </group>
+                                 <field name="court_evidence" widget="binary"/>
+                             </page>
+                             <page string="Repossession">
+                                 <group>
+                                     <field name="repossessed_date"/>
+                                     <field name="recovery_agent_id"/>
+                                     <field name="goods_condition"/>
+                                     <field name="repossessed_value" decimal_precision="2"/>
+                                     <field name="write_down_amount" decimal_precision="2"/>
+                                 </group>
+                                 <field name="recovery_scope"/>
+                                 <field name="recovery_outcome"/>
+                             </page>
+                             <page string="Voluntary Termination">
+                                 <group>
+                                     <field name="termination_request_date"/>
+                                     <field name="goods_returned_date"/>
+                                     <field name="refund_amount" decimal_precision="2"/>
+                                     <field name="shortfall_amount" decimal_precision="2"/>
+                                 </group>
+                                 <field name="damage_assessment"/>
+                             </page>
+                             <page string="Promise to Pay">
+                                 <group>
+                                     <field name="promised_amount" decimal_precision="2"/>
+                                     <field name="promised_date"/>
+                                     <field name="promise_channel"/>
+                                     <field name="promise_outcome"/>
+                                 </group>
+                             </page>
+                             <page string="Notes">
+                                 <field name="notes"/>
+                             </page>
+                         </notebook>
+                     </sheet>
+                 </form>
+             </field>
+        </record>
+
+         <!-- HP Case Action -->
+        <record id="action_hp_case" model="ir.actions.act_window">
+             <field name="name">Hire Purchase Cases</field>
+             <field name="res_model">hp.case</field>
+             <field name="view_mode">list,form</field>
+             <field name="help" type="xml">
+                 <p>Create a new Hire Purchase Case.</p>
+                 <p>Cases manage the collections lifecycle: reminders, statutory notices, court actions and repossession.</p>
+             </field>
+        </record>

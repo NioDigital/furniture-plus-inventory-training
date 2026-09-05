@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+        <!-- HP Agreement List View -->
+       <record id="view_hp_agreement_tree" model="ir.ui.view">
+            <field name="name">hp.agreement.tree</field>
+            <field name="model">hp.agreement</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <list string="Hire Purchase Agreements">
+                    <field name="name"/>
+                    <field name="contract_id"/>
+                    <field name="version"/>
+                    <field name="sign_status"/>
+                    <field name="sign_completed_date"/>
+                </list>
+            </field>
+       </record>
+
+        <!-- HP Agreement Form View -->
+       <record id="view_hp_agreement_form" model="ir.ui.view">
+            <field name="name">hp.agreement.form</field>
+            <field name="model">hp.agreement</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Hire Purchase Agreement">
+                    <header>
+                        <button name="action_send_for_signature" string="Send for Signature" type="object" class="btn-primary"/>
+                        <button name="action_mark_signed" string="Mark Signed" type="object"/>
+                        <button name="action_create_amendment" string="Create Amendment" type="object"/>
+                        <field name="sign_status" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="contract_id"/>
+                                <field name="version"/>
+                            </group>
+                            <group>
+                                <field name="signer_order"/>
+                                <field name="template_version_id"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Signatures">
+                                <group>
+                                    <field name="customer_signed"/>
+                                    <field name="customer_signed_date"/>
+                                    <field name="guarantor_signed"/>
+                                    <field name="guarantor_signed_date"/>
+                                    <field name="company_signed"/>
+                                    <field name="company_signed_date"/>
+                                </group>
+                            </page>
+                            <page string="Content">
+                                <group>
+                                    <field name="customer_name"/>
+                                    <field name="customer_id_number"/>
+                                    <field name="goods_description"/>
+                                    <field name="cash_price" decimal_precision="2"/>
+                                    <field name="hp_price" decimal_precision="2"/>
+                                    <field name="deposit_amount" decimal_precision="2"/>
+                                    <field name="finance_charge" decimal_precision="2"/>
+                                </group>
+                                <field name="statutory_notices"/>
+                            </page>
+                            <page string="Documents">
+                                <field name="document_ids">
+                                    <list>
+                                        <field name="name"/>
+                                        <field name="document_type_id"/>
+                                        <field name="verification_status"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+       </record>
+
+        <!-- HP Agreement Action -->
+       <record id="action_hp_agreement" model="ir.actions.act_window">
+            <field name="name">Hire Purchase Agreements</field>
+            <field name="res_model">hp.agreement</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="xml">
+                <p>Create a new Hire Purchase Agreement.</p>
+                <p>Agreements are the signed legal documents. Material amendments create new versions.</p>
+            </field>
+       </record>

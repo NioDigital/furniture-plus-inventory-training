@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- ── Security Groups (Table 8, SEC-001 to SEC-004) ───────────── -->
+
+    <record id="group_hp_salesperson" model="res.groups">
+        <field name="name">Hire Purchase / Salesperson</field>
+        <field name="category_id" ref="base.module_category_sales"/>
+    </record>
+
+    <record id="group_hp_credit_officer" model="res.groups">
+        <field name="name">Hire Purchase / Credit Officer</field>
+        <field name="category_id" ref="base.module_category_sales"/>
+        <field name="implied_ids" eval="[(4, ref('group_hp_salesperson'))]"/>
+    </record>
+
+    <record id="group_hp_credit_manager" model="res.groups">
+        <field name="name">Hire Purchase / Credit Manager</field>
+        <field name="category_id" ref="base.module_category_sales"/>
+        <field name="implied_ids" eval="[(4, ref('group_hp_credit_officer'))]"/>
+    </record>
+
+    <record id="group_hp_cashier" model="res.groups">
+        <field name="name">Hire Purchase / Cashier</field>
+        <field name="category_id" ref="base.module_category_sales"/>
+    </record>
+
+    <record id="group_hp_collections_officer" model="res.groups">
+        <field name="name">Hire Purchase / Collections Officer</field>
+        <field name="category_id" ref="base.module_category_sales"/>
+    </record>
+
+    <record id="group_hp_collections_manager" model="res.groups">
+        <field name="name">Hire Purchase / Collections Manager</field>
+        <field name="category_id" ref="base.module_category_sales"/>
+        <field name="implied_ids" eval="[(4, ref('group_hp_collections_officer'))]"/>
+    </record>
+
+    <record id="group_hp_legal" model="res.groups">
+        <field name="name">Hire Purchase / Legal</field>
+        <field name="category_id" ref="base.module_category_sales"/>
+    </record>
+
+    <record id="group_hp_accountant" model="res.groups">
+        <field name="name">Hire Purchase / Accountant</field>
+        <field name="category_id" ref="base.module_category_accounting"/>
+    </record>
+
+    <record id="group_hp_auditor" model="res.groups">
+        <field name="name">Hire Purchase / Auditor</field>
+        <field name="category_id" ref="base.module_category_accounting"/>
+    </record>
+
+    <!-- ── HP Plan access (Table 8: Salesperson read; Credit Manager write) ─ -->
+    <record id="hp_plan_rule_salesperson" model="ir.rule">
+        <field name="name">HP Plan: Salesperson (read only)</field>
+        <field name="model_id" ref="model_hp_plan"/>
+        <field name="group_id" ref="group_hp_salesperson"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="hp_plan_rule_credit_manager" model="ir.rule">
+        <field name="name">HP Plan: Credit Manager (full)</field>
+        <field name="model_id" ref="model_hp_plan"/>
+        <field name="group_id" ref="group_hp_credit_manager"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="hp_plan_rule_accountant" model="ir.rule">
+        <field name="name">HP Plan: Accountant (full)</field>
+        <field name="model_id" ref="model_hp_plan"/>
+        <field name="group_id" ref="group_hp_accountant"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- ── HP Application access (Maker-Checker: SEC-001) ─────────── -->
+    <record id="hp_application_rule_salesperson" model="ir.rule">
+        <field name="name">HP Application: Salesperson (create/read own)</field>
+        <field name="model_id" ref="model_hp_application"/>
+        <field name="group_id" ref="group_hp_salesperson"/>
+        <field name="domain_force">[('create_uid','=',user.id)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="hp_application_rule_credit_officer" model="ir.rule">
+        <field name="name">HP Application: Credit Officer (read/write)</field>
+        <field name="model_id" ref="model_hp_application"/>
+        <field name="group_id" ref="group_hp_credit_officer"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="hp_application_rule_credit_manager" model="ir.rule">
+        <field name="name">HP Application: Credit Manager (full)</field>
+        <field name="model_id" ref="model_hp_application"/>
+        <field name="group_id" ref="group_hp_credit_manager"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- ── HP Contract access (Accountant + Legal) ─────────────────── -->
+    <record id="hp_contract_rule_salesperson" model="ir.rule">
+        <field name="name">HP Contract: Salesperson (read only)</field>
+        <field name="model_id" ref="model_hp_contract"/>
+        <field name="group_id" ref="group_hp_salesperson"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="hp_contract_rule_accountant" model="ir.rule">
+        <field name="name">HP Contract: Accountant (full)</field>
+        <field name="model_id" ref="model_hp_contract"/>
+        <field name="group_id" ref="group_hp_accountant"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- ── HP Case access (Collections + Legal) ────────────────────── -->
+    <record id="hp_case_rule_collections_officer" model="ir.rule">
+        <field name="name">HP Case: Collections Officer (read/write)</field>
+        <field name="model_id" ref="model_hp_case"/>
+        <field name="group_id" ref="group_hp_collections_officer"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="hp_case_rule_legal" model="ir.rule">
+        <field name="name">HP Case: Legal (full)</field>
+        <field name="model_id" ref="model_hp_case"/>
+        <field name="group_id" ref="group_hp_legal"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- ── HP Agreement access (Legal + Auditor) ───────────────────── -->
+    <record id="hp_agreement_rule_legal" model="ir.rule">
+        <field name="name">HP Agreement: Legal (full)</field>
+        <field name="model_id" ref="model_hp_agreement"/>
+        <field name="group_id" ref="group_hp_legal"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- ── HP Document access (AUD-004, AUD-005) ──────────────────── -->
+    <record id="hp_document_rule_credit" model="ir.rule">
+        <field name="name">HP Document: Credit (read)</field>
+        <field name="model_id" ref="model_hp_document"/>
+        <field name="group_id" ref="group_hp_credit_officer"/>
+        <field name="domain_force">[('access_group','in',['credit','general'])]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="hp_document_rule_legal_full" model="ir.rule">
+        <field name="name">HP Document: Legal (full)</field>
+        <field name="model_id" ref="model_hp_document"/>
+        <field name="group_id" ref="group_hp_legal"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- ── Auditor: read all (AUD-010) ─────────────────────────────── -->
+    <record id="hp_plan_rule_auditor" model="ir.rule">
+        <field name="name">HP Plan: Auditor (read only)</field>
+        <field name="model_id" ref="model_hp_plan"/>
+        <field name="group_id" ref="group_hp_auditor"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="hp_contract_rule_auditor" model="ir.rule">
+        <field name="name">HP Contract: Auditor (read only)</field>
+        <field name="model_id" ref="model_hp_contract"/>
+        <field name="group_id" ref="group_hp_auditor"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- ── Cashier: read contracts, no write ───────────────────────── -->
+    <record id="hp_contract_rule_cashier" model="ir.rule">
+        <field name="name">HP Contract: Cashier (read only)</field>
+        <field name="model_id" ref="model_hp_contract"/>
+        <field name="group_id" ref="group_hp_cashier"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>

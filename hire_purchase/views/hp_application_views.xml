@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+       <!-- HP Application List View -->
+      <record id="view_hp_application_tree" model="ir.ui.view">
+           <field name="name">hp.application.tree</field>
+           <field name="model">hp.application</field>
+           <field name="type">tree</field>
+           <field name="arch" type="xml">
+               <list string="Hire Purchase Applications">
+                   <field name="name"/>
+                   <field name="partner_id"/>
+                   <field name="plan_id"/>
+                   <field name="total_goods_value" decimal_precision="2"/>
+                   <field name="deposit_amount" decimal_precision="2"/>
+                   <field name="state"/>
+                   <field name="application_date"/>
+               </list>
+           </field>
+      </record>
+
+       <!-- HP Application Form View -->
+      <record id="view_hp_application_form" model="ir.ui.view">
+           <field name="name">hp.application.form</field>
+           <field name="model">hp.application</field>
+           <field name="type">form</field>
+           <field name="arch" type="xml">
+               <form string="Hire Purchase Application">
+                   <header>
+                       <button name="action_submit" string="Submit" type="object" class="btn-primary"/>
+                       <button name="action_start_credit_review" string="Start Credit Review" type="object"/>
+                       <button name="action_approve" string="Approve" type="object" class="btn-primary"/>
+                       <button name="action_conditionally_approve" string="Conditionally Approve" type="object"/>
+                       <button name="action_reject" string="Reject" type="object" class="btn-danger"/>
+                       <button name="action_withdraw" string="Withdraw" type="object"/>
+                       <field name="state" widget="statusbar"/>
+                   </header>
+                   <sheet>
+                       <div class="mb-3">
+                           <h1><field name="name"/></h1>
+                       </div>
+                       <group>
+                           <group>
+                               <field name="partner_id"/>
+                               <field name="plan_id"/>
+                               <field name="application_date"/>
+                           </group>
+                           <group>
+                               <field name="guarantor_id" attrs="{'required': [('plan_id', '!=', False)]}"/>
+                               <field name="sale_order_id"/>
+                               <field name="expiry_date"/>
+                           </group>
+                       </group>
+                       <notebook>
+                           <page string="Goods / Assets">
+                               <group>
+                                   <field name="goods_description"/>
+                                   <field name="total_goods_value" decimal_precision="2"/>
+                                   <field name="deposit_amount" decimal_precision="2"/>
+                                   <field name="finance_charge_amount" decimal_precision="2"/>
+                                   <field name="total_hire_purchase_price" decimal_precision="2"/>
+                               </group>
+                           </page>
+                           <page string="Credit Review">
+                               <group>
+                                   <field name="credit_reviewer_id"/>
+                                   <field name="monthly_income" decimal_precision="2"/>
+                                   <field name="existing_commitments" decimal_precision="2"/>
+                                   <field name="affordability_ratio" decimal_precision="2"/>
+                                   <field name="credit_review_notes"/>
+                               </group>
+                           </page>
+                           <page string="Documents">
+                               <group>
+                                   <field name="documents_received"/>
+                                   <field name="document_checklist" widget="many2many_tags"/>
+                               </group>
+                           </page>
+                       </notebook>
+                   </sheet>
+               </form>
+           </field>
+      </record>
+
+       <!-- HP Application Search View -->
+      <record id="view_hp_application_search" model="ir.ui.view">
+           <field name="name">hp.application.search</field>
+           <field name="model">hp.application</field>
+           <field name="type">search</field>
+           <field name="arch" type="xml">
+               <search string="Hire Purchase Applications">
+                   <field name="name"/>
+                   <field name="partner_id"/>
+                   <filter name="draft" string="Drafts" domain="[('state','=','draft')]"/>
+                   <filter name="submitted" string="Submitted" domain="[('state','=','submitted')]"/>
+                   <filter name="credit_review" string="Credit Review" domain="[('state','=','credit_review')]"/>
+                   <filter name="approved" string="Approved" domain="[('state','=','approved')]"/>
+                   <filter name="rejected" string="Rejected" domain="[('state','=','rejected')]"/>
+                   <separator/>
+                   <group expand="0" string="Group By">
+                       <filter name="plan" string="Plan" context="{'group_by':'plan_id'}"/>
+                       <filter name="partner" string="Customer" context="{'group_by':'partner_id'}"/>
+                       <filter name="state" string="Status" context="{'group_by':'state'}"/>
+                   </group>
+               </search>
+           </field>
+      </record>
+
+       <!-- HP Application Action -->
+      <record id="action_hp_application" model="ir.actions.act_window">
+           <field name="name">Hire Purchase Applications</field>
+           <field name="res_model">hp.application</field>
+           <field name="view_mode">list,form</field>
+           <field name="search_view_id" ref="view_hp_application_search"/>
+           <field name="help" type="xml">
+               <p>Create a new Hire Purchase Application.</p>
+               <p>Applications capture customer and guarantor data, affordability assessment and credit review decisions.</p>
+           </field>
+      </record>

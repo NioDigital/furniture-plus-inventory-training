@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+      <!-- HP Plan List View -->
+     <record id="view_hp_plan_tree" model="ir.ui.view">
+          <field name="name">hp.plan.tree</field>
+          <field name="model">hp.plan</field>
+          <field name="type">tree</field>
+          <field name="arch" type="xml">
+              <list string="Hire Purchase Plans">
+                  <field name="sequence" widget="handle"/>
+                  <field name="name"/>
+                  <field name="duration_months"/>
+                  <field name="finance_charge_type"/>
+                  <field name="finance_charge_rate" decimal_precision="2"/>
+                  <field name="statutory_scope_limit" decimal_precision="2"/>
+                  <field name="requires_guarantor"/>
+                  <field name="state"/>
+              </list>
+          </field>
+     </record>
+
+      <!-- HP Plan Form View -->
+     <record id="view_hp_plan_form" model="ir.ui.view">
+          <field name="name">hp.plan.form</field>
+          <field name="model">hp.plan</field>
+          <field name="type">form</field>
+          <field name="arch" type="xml">
+              <form string="Hire Purchase Plan">
+                  <header>
+                      <button name="action_approve" string="Approve" type="object" class="btn-primary"/>
+                      <button name="action_archive" string="Archive" type="object"/>
+                      <field name="state" widget="statusbar"/>
+                  </header>
+                  <sheet>
+                      <group>
+                          <group>
+                              <field name="name"/>
+                              <field name="sequence"/>
+                              <field name="duration_months"/>
+                          </group>
+                          <group>
+                              <field name="payment_term_id"/>
+                              <field name="finance_charge_type"/>
+                              <field name="finance_charge_rate" attrs="{'invisible': [('finance_charge_type', '!=', 'flat')]}"/>
+                              <field name="max_contract_value" decimal_precision="2"/>
+                          </group>
+                      </group>
+                      <group string="Legal / Regulatory">
+                          <field name="statutory_scope_limit" decimal_precision="2"/>
+                          <field name="requires_guarantor"/>
+                          <field name="min_deposit_pct" decimal_precision="2"/>
+                      </group>
+                      <group string="Accounting">
+                          <field name="unearned_income_account_id"/>
+                          <field name="finance_income_journal_id"/>
+                          <field name="accounting_framework"/>
+                      </group>
+                  </sheet>
+              </form>
+          </field>
+     </record>
+
+      <!-- HP Plan Action -->
+     <record id="action_hp_plan" model="ir.actions.act_window">
+          <field name="name">Hire Purchase Plans</field>
+          <field name="res_model">hp.plan</field>
+          <field name="view_mode">list,form</field>
+          <field name="help" type="xml">
+              <p>Create a new Hire Purchase Plan.</p>
+              <p>Plans define financing products: duration, finance charge type, statutory scope limits and linked Odoo payment terms.</p>
+          </field>
+     </record>
